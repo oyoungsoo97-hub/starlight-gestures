@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070b13">
+<title>별빛 트리 · 손동작 카메라</title>
+<style>
+*{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden;background:#050810;color:#eaf3f4;font:14px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+body{display:grid;grid-template-rows:43% minmax(0,1fr);height:100dvh}
+#mirror{position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at 50% 70%,#222b38,#10151d 63%,#0a0e14);border-bottom:1px solid #a3c0c439}
+#ambient{position:absolute;inset:-30px;width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;filter:blur(30px) brightness(.33) saturate(.7);transform:scaleX(-1);pointer-events:none;z-index:-1}
+#frame{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:100%;max-height:100%}
+#self,#joints{position:absolute;inset:0;width:100%;height:100%}#self{transform:scaleX(-1);object-fit:contain}#joints{pointer-events:none}
+#connection{position:absolute;left:max(14px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));border-radius:20px;background:#080e16a6;padding:5px 10px;color:#e1ebed;font-size:11px;letter-spacing:.02em;display:flex;gap:6px;align-items:center;backdrop-filter:blur(9px);text-shadow:0 1px 3px #0008}#lamp{background:#c7a977;width:6px;height:6px;border-radius:50%}#lamp.on{background:#91eacb;box-shadow:0 0 7px #7ed7b4aa}
+button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulation}button:focus-visible,input:focus-visible{outline:2px solid #e9d9ae;outline-offset:3px}
+#cameraButton{position:absolute;right:max(14px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));background:#080e16b8;border:1px solid #d8e4ea3a;border-radius:18px;padding:5px 11px;color:#edf1ef;font-size:11px;backdrop-filter:blur(10px)}button:disabled{opacity:.65}
+#hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(85%,400px);text-align:center;font-size:13px;color:#d2dae4}#hint:empty{display:none}
+#stage{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 49% 91%,#102029 0%,#090f1b 31%,#050812 62%,#03060c 100%)}#stars{height:100%;width:100%;display:block;touch-action:none;cursor:grab}#stars:active{cursor:grabbing}
+#comets{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#bar{position:absolute;bottom:max(9px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;padding:3px 7px;border:1px solid #bee0e330;background:#07101cce;border-radius:25px;backdrop-filter:blur(12px);box-shadow:0 4px 15px #0004;white-space:nowrap}
+#bar button{background:transparent;font-size:12px;letter-spacing:.03em;border-radius:22px;padding:5px 10px;min-height:30px;color:#dce8e9}#bar button:hover{background:#b2dbd91f}#amount{width:clamp(66px,13vw,130px);accent-color:#a5d7ce;height:16px;cursor:ew-resize}
+#instruction{position:absolute;bottom:10px;left:16px;pointer-events:none;color:#b5c9d3;font-size:11px;text-shadow:0 1px 4px #000}#instruction p{margin:0}
+@media(max-width:1000px){#instruction{bottom:auto;top:8px;left:13px}}
+@media(max-height:540px){body{grid-template-rows:40% minmax(0,1fr)}#bar{bottom:4px}#instruction{display:none}}
+</style>
+</head><body>
+<section id="mirror" aria-label="거울처럼 보이는 실시간 카메라와 손 관절">
+ <video id="ambient" muted playsinline autoplay aria-hidden="true"></video>
+ <div id="frame"><video id="self" muted playsinline autoplay aria-label="내 카메라 영상"></video><canvas id="joints" aria-hidden="true"></canvas></div>
+ <span id="connection" role="status"><i id="lamp"></i><span id="state">카메라 연결 중</span></span>
+ <button id="cameraButton" disabled>카메라 연결 중</button>
+ <div id="hint"></div>
+</section>
+<section id="stage" aria-label="손동작에 반응하는 별빛 트리와 밤하늘">
+ <canvas id="stars" aria-label="별빛 입자 장면. 슬라이더로 트리에서 밤하늘로 전환할 수 있습니다."></canvas>
+ <canvas id="comets" aria-hidden="true"></canvas>
+ <div id="instruction"><p>한 손으로 회전 · 빠르게 휘둘러 별똥별</p><p>양손을 모으면 트리 · 벌리면 은하</p></div>
+ <nav id="bar" aria-label="별빛 모양 조절"><button id="gather">트리</button><input aria-label="별빛 흩어짐" id="amount" type="range" min="0" max="100" value="0"><button id="scatter">별하늘</button></nav>
+</section>
+<script type="module" src="mirror-night.js"></script>
+</body></html>
