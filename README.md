@@ -2,6 +2,8 @@
 
 [English](#english) · [Deutsch](#deutsch) · [한국어](#한국어)
 
+![A tree of stars opens into a spiral galaxy, then gathers again.](./starlight-preview.gif)
+
 ## English
 
 Bring your hands together in front of your webcam and the stars gather into a tree. Move your hands apart and the tree opens into a spiral galaxy. The upper panel shows your mirrored camera feed with the joints of your hands marked. The lower panel renders the scene in 3D with WebGL. Hand tracking runs in your browser.
